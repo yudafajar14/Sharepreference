@@ -1,0 +1,130 @@
+package emc.customer.Update.temp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import emc.customer.R;
+import emc.customer.Update.MenuActivity;
+import emc.customer.Update.Model.M_Kabupaten;
+import emc.customer.Update.Model.M_Kecamatan;
+import emc.customer.Update.Model.M_Kelurahan;
+import emc.customer.Update.Model.M_Provinsi;
+import emc.customer.Update.items.delivery.RecyclerViewAdapterKab;
+import emc.customer.Update.items.delivery.RecyclerViewAdapterKec;
+import emc.customer.Update.items.delivery.RecyclerViewAdapterKelurahan;
+import emc.customer.Update.items.delivery.RecyclerViewAdapterProvinsi;
+import emc.customer.Update.items.delivery.Wilayah;
+
+public class getWilayahCoba extends AppCompatActivity implements
+        RecyclerViewAdapterProvinsi.OnItemClickListenerProvinsi,
+        RecyclerViewAdapterKab.OnItemClickListenerKabupaten,
+        RecyclerViewAdapterKec.OnItemClickListenerKecamatan,
+        RecyclerViewAdapterKelurahan.OnItemClickListenerKelurahan {
+
+
+    RecyclerViewAdapterProvinsi recyclerViewAdapterProvinsi;
+    RecyclerViewAdapterKab recyclerViewAdapterKab;
+    RecyclerViewAdapterKec recyclerViewAdapterKec;
+    RecyclerViewAdapterKelurahan recyclerViewAdapterKelurahan;
+
+//    private RecyclerViewAdapterBonus recyclerViewAdapterBonus;
+//    LinearLayout rlGetWilayah;
+
+    ArrayList<M_Provinsi> m_provinsiArrayList;
+    ArrayList<M_Kabupaten> m_kabupatenArrayList;
+    ArrayList<M_Kecamatan> m_kecamatanArrayList;
+    ArrayList<M_Kelurahan> m_kelurahanArrayList;
+
+    CardView cvProvv, cvKabb, cvKecc, cvKell;
+
+    private RecyclerView recyclerViewProv, recyclerViewKab, recyclerViewKec, recyclerViewKel;
+    private RecyclerView recyclerViewbonus;
+
+    private RequestQueue requestQueue;
+
+    TextView tvProv;
+
+    TextView tvKab, tvKec, tvKel;
+    TextView tvProvid, tvKabid, tvKecid, tvKelid, tvidOrigin;
+    TextView tvProvinsi, tvKabupaten, tvDestinasi,  tvKode,tvKelurahan,tvKodePos, tvOrigin, tvReguler, tvetdReg, tvNextday, tvetdNd,tipeReg,tipeNd;
+    TextView tvhargaReguler, tvhargaYes;
+
+    ImageView SideMenu;
+
+    Button btnSubmit;
+
+    EditText etAlamat, etNama, etNomor;
+
+    String type, idOrigin;
+
+    int statusGet;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_get_wilayah_coba);
+
+        Intent intent = getIntent();
+
+        type = intent.getStringExtra("TYPE");
+        idOrigin = intent.getStringExtra("idOrigin");
+
+        Toast.makeText(this, type, Toast.LENGTH_SHORT).show();
+
+//=========================================INISIALISASI===========================================\\
+//=========================================INISIALISASI===========================================\\
+//=========================================INISIALISASI===========================================\\
+
+        SideMenu = findViewById(R.id.side_menu);
+
+        tvProv = findViewById(R.id.tvProv);
+        tvKab = findViewById(R.id.tvKab);
+        tvKec = findViewById(R.id.tvKecamatan);
+        tvKel = findViewById(R.id.tvKeLurahan);
+
+        tvProvid = findViewById(R.id.tvProvid);
+        tvKabid = findViewById(R.id.tvKabid);
+        tvKecid = findViewById(R.id.tvKecamatanid);
+        tvKelid = findViewById(R.id.tvKelurahanid);
+        tvidOrigin = findViewById(R.id.tvIdOrigin);
+
+        tvProvinsi = findViewById(R.id.tvProvinsi);
+        tvKabupaten = findViewById(R.id.tvKabupaten);
+        tvDestinasi = findViewById(R.id.tvDestinasi);
+        tvKode = findViewById(R.id.tvKode);
+        tvKelurahan = findViewById(R.id.tvKelurahan);
+        tvKodePos = findViewById(R.id.tvkd_pos);
+        tvOrigin = findViewById(R.id.tvOrigin);
+        tvReguler = findViewById(R.id.tvReguler);
+        tvetdReg = findViewById(R.id.etd_reg);
+        tvNextday = findViewById(R.id.tvNextDay);
+        tvetdNd = findViewById(R.id.etd_nd);
+        tipeReg = findViewById(R.id.tipeReg);
+        tipeNd = findViewById(R.id.tipeNd);
+
+
+        etAlamat = findViewById(R.id.etAlamatL
